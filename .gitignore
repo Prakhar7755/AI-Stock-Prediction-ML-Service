@@ -132,9 +132,6 @@ dist
 !.yarn/versions
 
 
-*.md
-
-
 # Ignore virtual environment
 venv/
 
