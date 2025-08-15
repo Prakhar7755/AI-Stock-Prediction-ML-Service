@@ -5,6 +5,11 @@ import numpy as np
 app = Flask(__name__)
 
 
+@app.route("/health", methods=["GET"])
+def health():
+    return "OK", 200
+
+
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
@@ -42,4 +47,5 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False)
+    # app.run(host="0.0.0.0", debug=True)
