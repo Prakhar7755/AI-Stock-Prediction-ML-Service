@@ -7,8 +7,20 @@ app = Flask(__name__)
 
 @app.route("/health", methods=["GET"])
 def health():
-    return "OK", 200
-
+    return """
+    <html>
+      <head>
+        <title>Health Check</title>
+      </head>
+      <body style="font-size: 36px; font-family: Arial, sans-serif; text-align: center; margin-top: 100px;">
+        <p>✅ Server is Healthy</p>
+        <button onclick="window.location.href='https://ai-stock-prediction-dfv1.onrender.com';" 
+                style="padding: 20px 40px; font-size: 28px; background-color: #007BFF; color: white; border: none; border-radius: 8px; cursor: pointer;">
+          REDIRECT TO THE MAIN WEBSITE
+        </button>
+      </body>
+    </html>
+    """, 200
 
 @app.route("/predict", methods=["POST"])
 def predict():
