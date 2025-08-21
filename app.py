@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
 
 app = Flask(__name__)
@@ -22,6 +23,7 @@ def health():
     </html>
     """, 200
 
+
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
@@ -32,22 +34,27 @@ def predict():
         if not isinstance(prices, list) or len(prices) < 5:
             return jsonify({"error": "At least 5 closing prices required"}), 400
 
-        # Method: average
+        X = np.arange(len(prices)).reshape(-1, 1)
+        y = np.array(prices).reshape(-1, 1)
+
         if method == "average":
             avg_price = round(sum(prices[-10:]) / min(10, len(prices)), 2)
             return jsonify({"predicted_price": avg_price})
 
-        # Method: linear-regression
         elif method == "linear-regression":
-            X = np.arange(len(prices)).reshape(-1, 1)
-            y = np.array(prices).reshape(-1, 1)
-
             model = LinearRegression()
             model.fit(X, y)
-
             next_day = np.array([[len(prices)]])
             prediction = model.predict(next_day)[0][0]
+            return jsonify({"predicted_price": round(float(prediction), 2)})
 
+        elif method == "polynomial-regression":
+            poly = PolynomialFeatures(degree=3)  # degree can be tuned (e.g., 2, 3, 4)
+            X_poly = poly.fit_transform(X)
+            model = LinearRegression()
+            model.fit(X_poly, y)
+            next_day = poly.transform([[len(prices)]])
+            prediction = model.predict(next_day)[0][0]
             return jsonify({"predicted_price": round(float(prediction), 2)})
 
         else:
@@ -60,4 +67,3 @@ def predict():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False)
-    # app.run(host="0.0.0.0", debug=True)
