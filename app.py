@@ -17,7 +17,11 @@ def health():
         <p>✅ Server is Healthy</p>
         <button onclick="window.location.href='https://ml-stock-predictor.vercel.app';" 
                 style="padding: 20px 40px; font-size: 28px; background-color: #007BFF; color: white; border: none; border-radius: 8px; cursor: pointer;">
-          REDIRECT TO THE MAIN WEBSITE
+          REDIRECT TO THE App 1
+        </button>
+         <button onclick="window.location.href='https://ai-stock-prediction-dfv1.onrender.com';" 
+                style="padding: 20px 40px; font-size: 28px; background-color: #007BFF; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 50px">
+          REDIRECT TO THE App 2
         </button>
       </body>
     </html>
